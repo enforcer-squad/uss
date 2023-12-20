@@ -1,2 +1,1 @@
-# tpl-lib-ts
-library typescript template 
+ultra state solution include urs management both client and server state
