@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "library typescript template",
   "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky install",
@@ -11,9 +14,10 @@
     "preview:docs": "anywhere -d ./docs_dist",
     "start": "cross-env NODE_ENV=development BUILD_ENV=local webpack-dev-server --config build/webpack.dev.conf.js",
     "build": "cross-env NODE_ENV=production BUILD_ENV=prod node build/build.js",
-    "version:major": "npx standard-version --release-as major",
-    "version:minor": "npx standard-version --release-as minor",
-    "version:patch": "npx standard-version --release-as patch",
+    "version:major": "standard-version --release-as major",
+    "version:minor": "standard-version --release-as minor",
+    "version:patch": "standard-version --release-as patch",
+    "version:first": "standard-version --first-release",
     "release": "pnpm build && pnpm release:only",
     "release:only": "npm publish --registry=https://registry.npmjs.com/"
   },

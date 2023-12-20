@@ -3,7 +3,7 @@ import { useQuery, setSnapshotData, setStaleData, getSnapshotData, invalidateDat
 
 export * from './useMutation';
 
-const setData = (cacheKeys: (string | number)[], state: any) => {
+const setData = (cacheKeys: Array<string | number>, state: any) => {
   _setData(cacheKeys, state);
   const staleData = getSnapshotData(cacheKeys);
   setSnapshotData(cacheKeys, { ...staleData, data: state });

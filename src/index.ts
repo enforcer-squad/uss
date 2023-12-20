@@ -6,7 +6,7 @@ import USSPlugin, { effect, recycle } from './middlewares/uss';
 import SubscribePlugin, { subscribe } from './middlewares/subscribe';
 import ScopePlugin from './middlewares/scope';
 import DevToolPlugin from './middlewares/devtool';
-
+export * from './derivative/urs/index';
 declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION__: any;
