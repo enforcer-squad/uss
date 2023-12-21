@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import type { Config, Proxied } from './core';
 import type { DevToolOptions } from './middlewares/devtool';
-import { useReducer, useMemo, useRef, useEffect } from 'react';
+import { useReducer, useMemo, useRef, useLayoutEffect } from 'react';
 import Core, { getOrigin, getCoreInstance } from './core';
 import USSPlugin, { effect, recycle } from './middlewares/uss';
 import SubscribePlugin, { subscribe } from './middlewares/subscribe';
@@ -17,7 +17,7 @@ const useSafeUpdate = () => {
   const [, forceUpdate] = useReducer(x => x + 1, 0);
   const isMountedRef = useRef(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     isMountedRef.current = true;
     return () => {
       isMountedRef.current = false;
