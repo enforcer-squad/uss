@@ -57,7 +57,7 @@ interface PropTypes {
 const ComRequest1: FC<PropTypes> = memo(({ p }) => {
   const { loading, cancel, data, error, refetch } = useTestRequest(p!);
   const { data: data1, mutate } = useTestRequest1(1);
-  console.log('ComRequest1 render');
+  console.log('ComRequest1 render', loading, cancel, data);
   return (
     <>
       <span>{data}</span>
