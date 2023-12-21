@@ -11,25 +11,31 @@ const SNAPSHOT = 'snapshot';
 const STALE = 'stale';
 const STALESTATE = ['stale', 'state'];
 
-const setStaleData = (cacheKeys: (string | number)[], status: boolean) =>
+const setStaleData = (cacheKeys: Array<string | number>, status: boolean) => {
+  (setData as any)._NOTRACK_ = true;
   setData([MANAGEMENT, ...cacheKeys, ...STALESTATE], status);
-
-const setSnapshotData = (cacheKeys: (string | number)[], status: any) =>
-  setData([MANAGEMENT, ...cacheKeys, SNAPSHOT], status);
-
-const getStaleData = (cacheKeys: (string | number)[]) => getData([MANAGEMENT, ...cacheKeys, STALE]);
-
-const getSnapshotData = (cacheKeys: (string | number)[]) => getData([MANAGEMENT, ...cacheKeys, SNAPSHOT]);
-
-const getReactiveSnapshotData = <T extends Config>(keys: (string | number)[], defaultValue?: T) => {
-  if (keys.length === 0) {
-    return getReactiveData([], defaultValue) as Proxied<T>;
-  }
-  const cacheKeys = [MANAGEMENT, ...keys, SNAPSHOT];
-  return getReactiveData(cacheKeys, defaultValue) as Proxied<T>;
+  (setData as any)._NOTRACK_ = false;
 };
 
-const invalidateData = (keys: (string | number)[]) => {
+const setSnapshotData = (cacheKeys: Array<string | number>, status: any) => {
+  (setData as any)._NOTRACK_ = true;
+  setData([MANAGEMENT, ...cacheKeys, SNAPSHOT], status);
+  (setData as any)._NOTRACK_ = false;
+};
+
+const getStaleData = (cacheKeys: Array<string | number>) => getData([MANAGEMENT, ...cacheKeys, STALE]);
+
+const getSnapshotData = (cacheKeys: Array<string | number>) => getData([MANAGEMENT, ...cacheKeys, SNAPSHOT]);
+
+const getReactiveSnapshotData = <T extends Config>(keys: Array<string | number>, defaultValue?: T) => {
+  if (keys.length === 0) {
+    return getReactiveData([], defaultValue);
+  }
+  const cacheKeys = [MANAGEMENT, ...keys, SNAPSHOT];
+  return getReactiveData(cacheKeys, defaultValue);
+};
+
+const invalidateData = (keys: Array<string | number>) => {
   if (keys.length === 0 || (keys as any).indexOf(undefined) !== -1) {
     return;
   }

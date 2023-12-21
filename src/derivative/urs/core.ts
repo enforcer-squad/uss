@@ -31,11 +31,7 @@ type RequestReturn<T> = { promise: Promise<T> };
 
 interface Plugins<RequestParams extends any[], ResponseData> {
   onBefore?: (params: RequestParams, instance: Core<RequestParams, ResponseData>) => void | BeforeReturn<ResponseData>;
-  onRequest?: (
-    state: FetchState<RequestParams, ResponseData>,
-    service: Service<RequestParams, ResponseData>,
-    instance: Core<RequestParams, ResponseData>,
-  ) => void | RequestReturn<ResponseData>;
+  onRequest?: (state: FetchState<RequestParams, ResponseData>, service: Service<RequestParams, ResponseData>, instance: Core<RequestParams, ResponseData>) => void | RequestReturn<ResponseData>;
   onSuccess?: (state: FetchState<RequestParams, ResponseData>, instance: Core<RequestParams, ResponseData>) => void;
   onError?: (state: FetchState<RequestParams, ResponseData>, instance: Core<RequestParams, ResponseData>) => void;
   onFinally?: (state: FetchState<RequestParams, ResponseData>, instance: Core<RequestParams, ResponseData>) => void;
@@ -53,14 +49,9 @@ class Core<RequestParams extends any[], ResponseData> {
 
   dispatch: DispatchFn;
 
-  plugins: Plugins<RequestParams, ResponseData>[];
+  plugins: Array<Plugins<RequestParams, ResponseData>>;
 
-  constructor(
-    service: Service<RequestParams, ResponseData>,
-    options: FetchOptions<RequestParams, ResponseData>,
-    plugins: Plugins<RequestParams, ResponseData>[],
-    dispatch?: DispatchFn,
-  ) {
+  constructor(service: Service<RequestParams, ResponseData>, options: FetchOptions<RequestParams, ResponseData>, plugins: Array<Plugins<RequestParams, ResponseData>>, dispatch?: DispatchFn) {
     const { initState = {} } = options;
     this.state = { loading: true, params: undefined, data: undefined, error: undefined, ...initState };
 
@@ -95,14 +86,10 @@ class Core<RequestParams extends any[], ResponseData> {
 
     const { onBefore, onSuccess, onError, onFinally, onCancel } = this.options;
 
-    const promiseFn = () => service(...params);
+    const promiseFn = async () => await service(...params);
     await eventablePromise(promiseFn, {
       onBefore: () => {
-        const { isReturn, ...state } = this.execPlugins(
-          'onBefore',
-          params,
-          this,
-        ) as unknown as BeforeReturn<ResponseData>;
+        const { isReturn, ...state } = this.execPlugins('onBefore', params, this) as unknown as BeforeReturn<ResponseData>;
         if (onBefore) {
           onBefore(params);
         }
@@ -111,22 +98,17 @@ class Core<RequestParams extends any[], ResponseData> {
             ...state,
           });
         }
-        return isReturn !== true;
+        return !isReturn;
       },
-      onRequest: cancel => {
+      onRequest: async cancel => {
         const tmpState = {
           loading: true,
           params,
           cancel,
         };
-        const { promise } = this.execPlugins(
-          'onRequest',
-          tmpState,
-          service,
-          this,
-        ) as unknown as RequestReturn<ResponseData>;
+        const { promise } = this.execPlugins('onRequest', tmpState, service, this) as unknown as RequestReturn<ResponseData>;
         this.updateState(tmpState);
-        return promise;
+        return await promise;
       },
       onSuccess: data => {
         const tmpState = { params, loading: false, cancel: undefined, error: undefined, data };

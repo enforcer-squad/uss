@@ -5,14 +5,7 @@ import type { Service, FetchState, FetchOptions } from './core';
 import type { Cachekey } from './util';
 import Core from './core';
 import { getCachedKeys, useMemoryEffect, shallowEqual } from './util';
-import {
-  CachedPlugin,
-  getReactiveSnapshotData,
-  setSnapshotData,
-  setStaleData,
-  getSnapshotData,
-  invalidateData,
-} from './plugins/cached';
+import { CachedPlugin, getReactiveSnapshotData, setSnapshotData, setStaleData, getSnapshotData, invalidateData } from './plugins/cached';
 import { SharedPlugin } from './plugins/shared';
 
 // promise请求全局缓存
@@ -26,11 +19,7 @@ const getCurrentCachedKeys = (key: Cachekey, manual: boolean, manualParams: any[
   return (keys as any).indexOf(undefined) === -1 ? keys : [];
 };
 
-const useQuery = <RequestParams extends any[], ResponseData>(
-  keys: Cachekey,
-  service: Service<RequestParams, ResponseData>,
-  options: FetchOptions<RequestParams, ResponseData>,
-) => {
+const useQuery = <RequestParams extends any[], ResponseData>(keys: Cachekey, service: Service<RequestParams, ResponseData>, options: FetchOptions<RequestParams, ResponseData>) => {
   const { manual = false, params: autoParams = [], placeholderData } = options || {};
 
   const [manualParams, setManualParams] = useState<any[]>([]);
@@ -62,8 +51,8 @@ const useQuery = <RequestParams extends any[], ResponseData>(
         !manual &&
         autoParams &&
         // autoParams.length > 0 &&
-        (autoParams as any[]).indexOf(undefined) === -1 &&
-        shallowEqual(prevParams, autoParams) === false
+        !(autoParams as any[]).includes(undefined) &&
+        !shallowEqual(prevParams, autoParams)
       ) {
         client.refetch(autoParams);
       }
@@ -77,8 +66,8 @@ const useQuery = <RequestParams extends any[], ResponseData>(
         manual &&
         manualParams &&
         // manualParams.length > 0 &&
-        (manualParams as any[]).indexOf(undefined) === -1 &&
-        shallowEqual(prevParams, manualParams) === false
+        !manualParams.includes(undefined) &&
+        !shallowEqual(prevParams, manualParams)
       ) {
         client.refetch(manualParams);
       }

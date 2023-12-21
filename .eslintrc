@@ -51,6 +51,12 @@
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/strict-boolean-expressions": "off",
     "no-unmodified-loop-condition": "off",
-    "@typescript-eslint/prefer-nullish-coalescing": "off"
+    "@typescript-eslint/prefer-nullish-coalescing": "off",
+    "@typescript-eslint/unbound-method": "off",
+    "promise/param-names": "off",
+    "react/display-name": "off",
+    "react/prop-types": "off",
+    "@typescript-eslint/no-invalid-void-type": "off",
+    "@typescript-eslint/no-floating-promises": "off"
   }
 }

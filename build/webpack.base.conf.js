@@ -8,7 +8,7 @@ const baseConfig = {
   mode: isProd ? 'production' : 'development',
   devtool: isProd ? false : 'source-map',
   entry: {
-    index: [resolve('src/index.ts')],
+    index: [resolve('src/export.ts')],
   },
   output: {
     filename: '[name].js',

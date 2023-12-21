@@ -21,39 +21,14 @@ type Proxied<T extends Config> = T & {
 //   _NOTRACK_core: Core<T>;
 // };
 
-type GetMiddleware<T extends Config> = (
-  context: Context,
-  next: GetMiddleware<T>,
-  target: T,
-  p: keyof T,
-  receiver: any,
-) => void;
+type GetMiddleware<T extends Config> = (context: Context, next: GetMiddleware<T>, target: T, p: keyof T, receiver: any) => void;
 
-type SetMiddleware<T extends Config> = (
-  context: Context,
-  next: SetMiddleware<T>,
-  target: T,
-  p: keyof T,
-  newValue: any,
-  receiver: any,
-) => void;
+type SetMiddleware<T extends Config> = (context: Context, next: SetMiddleware<T>, target: T, p: keyof T, newValue: any, receiver: any) => void;
 
 type OwnKeysMiddleware<T extends Config> = (context: Context, next: OwnKeysMiddleware<T>, target: T) => void;
 type DeleteMiddleware<T extends Config> = (context: Context, next: DeleteMiddleware<T>, target: T, p: keyof T) => void;
-type ApplyMiddleware<T extends Config> = (
-  context: Context,
-  next: ApplyMiddleware<T>,
-  target: Function,
-  thisArg: T | undefined,
-  argArray: any[],
-  rootProxyRef: Proxied<T>,
-) => any;
-type InitMiddleware<T extends Config> = (
-  context: Context,
-  next: InitMiddleware<T>,
-  target: T,
-  handler: ProxyHandler<T>,
-) => void;
+type ApplyMiddleware<T extends Config> = (context: Context, next: ApplyMiddleware<T>, target: Function, thisArg: T | undefined, argArray: any[], rootProxyRef: Proxied<T>) => any;
+type InitMiddleware<T extends Config> = (context: Context, next: InitMiddleware<T>, target: T, handler: ProxyHandler<T>) => void;
 
 interface CoreMiddleware<T extends Config> {
   onGet?: GetMiddleware<T>;
@@ -65,12 +40,12 @@ interface CoreMiddleware<T extends Config> {
 }
 
 type Handlers<T extends Config> = {
-  get: GetMiddleware<T>[];
-  set: SetMiddleware<T>[];
-  ownKeys: OwnKeysMiddleware<T>[];
-  delete: DeleteMiddleware<T>[];
-  apply: ApplyMiddleware<T>[];
-  init: InitMiddleware<T>[];
+  get: Array<GetMiddleware<T>>;
+  set: Array<SetMiddleware<T>>;
+  ownKeys: Array<OwnKeysMiddleware<T>>;
+  delete: Array<DeleteMiddleware<T>>;
+  apply: Array<ApplyMiddleware<T>>;
+  init: Array<InitMiddleware<T>>;
 };
 
 const getOrigin = <T extends Config>(proxyObject: Proxied<T>) => proxyObject?._NOTRACK_origin;
@@ -82,7 +57,7 @@ function capitalizeFirstLetter(target: string) {
 }
 
 class Core<T extends Config> {
-  middlewares: CoreMiddleware<T>[];
+  middlewares: Array<CoreMiddleware<T>>;
 
   handlers: Handlers<T>;
 
@@ -94,7 +69,7 @@ class Core<T extends Config> {
 
   scopeName: string;
 
-  constructor(middlewares: CoreMiddleware<T>[], scopeName: string) {
+  constructor(middlewares: Array<CoreMiddleware<T>>, scopeName: string) {
     this.proxyTargetCache = new WeakMap<Proxied<T>, T>();
     this.targetProxyCache = new WeakMap<T, Proxied<T>>();
     this.middlewares = middlewares;
@@ -132,7 +107,9 @@ class Core<T extends Config> {
       init: [initMiddleware],
     };
 
-    this.middlewares.forEach(middleware => this.use(middleware));
+    this.middlewares.forEach(middleware => {
+      this.use(middleware);
+    });
   }
 
   updateMiddleware(type: keyof Handlers<T>, middleware: CoreMiddleware<T>) {
@@ -161,9 +138,7 @@ class Core<T extends Config> {
         const _type = type as keyof Handlers<T>;
         const middlewareKey = `on${capitalizeFirstLetter(_type)}` as keyof CoreMiddleware<T>;
         // ts弊端又或者我还没玩明白
-        (this.handlers[_type] as Handlers<T>[keyof Handlers<T>]) = (this.handlers[_type] as any[]).filter(
-          fn => fn !== middleware[middlewareKey],
-        ) as Handlers<T>[keyof Handlers<T>];
+        this.handlers[_type] = (this.handlers[_type] as any[]).filter(fn => fn !== middleware[middlewareKey]) as any;
       });
     }
   }
@@ -203,7 +178,7 @@ class Core<T extends Config> {
           return Reflect.get(target, prop, receiver);
         }
         // 原型属性不处理 如数组的map等
-        if (isProtoProperty(target, prop as string)) {
+        if (isProtoProperty(target, prop)) {
           return Reflect.get(target, prop, receiver);
         }
         // TODO: 暂时只处理第一层对象的function响应

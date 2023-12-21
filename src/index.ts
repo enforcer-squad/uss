@@ -1,21 +1,17 @@
 /* eslint-disable no-underscore-dangle */
-import { useReducer, useMemo, useRef, useEffect } from 'react';
 import type { Config, Proxied } from './core';
+import type { DevToolOptions } from './middlewares/devtool';
+import { useReducer, useMemo, useRef, useEffect } from 'react';
 import Core, { getOrigin, getCoreInstance } from './core';
 import USSPlugin, { effect, recycle } from './middlewares/uss';
 import SubscribePlugin, { subscribe } from './middlewares/subscribe';
 import ScopePlugin from './middlewares/scope';
 import DevToolPlugin from './middlewares/devtool';
-export * from './derivative/urs/index';
 declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION__: any;
   }
 }
-
-type DevToolOptions = {
-  name?: string;
-};
 
 const useSafeUpdate = () => {
   const [, forceUpdate] = useReducer(x => x + 1, 0);
@@ -60,8 +56,9 @@ const devtools = <T extends Config>(model: Proxied<T>, options: DevToolOptions =
   const core = getCoreInstance(model);
   const { name } = options;
   const devTools = window.__REDUX_DEVTOOLS_EXTENSION__.connect({ name: name || state.key });
+
   devTools.init(state);
-  const devToolPlugin = new DevToolPlugin<T>(devTools);
+  const devToolPlugin = new DevToolPlugin<T>(devTools, options);
   core.use(devToolPlugin);
 };
 
