@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.7](https://enforcer/enforcer-squad/uss/compare/v1.0.0...v1.0.7) (2023-12-21)
+
+
+### Bug Fixes
+
+* 修复导出物包含react问题 ([e6d4540](https://enforcer/enforcer-squad/uss/commit/e6d45405de46846a97ef7922571d1f00fab83a86))
+* 修复执行时机导致的forceupdate无法正确执行问题 ([517a77b](https://enforcer/enforcer-squad/uss/commit/517a77be2417a86424502c29524f75f35465ddf2))
+* 修复eslint格式化导致的bug ([f5bb9fe](https://enforcer/enforcer-squad/uss/commit/f5bb9fecbad8add6b74a232cfacc8e6860e90685))
+* 修改导出类型描述 ([2cfdd98](https://enforcer/enforcer-squad/uss/commit/2cfdd9834483e85b2fb692f5a4082110b364dd7e))
+* 修改导出问题 ([ebb814c](https://enforcer/enforcer-squad/uss/commit/ebb814c863ccd92a52105eb4fe1f3550d959be3d))
+
 ### [1.0.6](https://enforcer/enforcer-squad/uss/compare/v1.0.5...v1.0.6) (2023-12-21)
 
 
