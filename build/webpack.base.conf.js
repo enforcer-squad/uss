@@ -48,7 +48,7 @@ const baseConfig = {
       },
     }),
     new BundleDeclarationsWebpackPlugin({
-      entry: './src/index.ts',
+      entry: './src/export.ts',
       outFile: 'index.d.ts',
     }),
   ],
