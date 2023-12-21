@@ -3,10 +3,7 @@ import { useCallback, useMemo, useReducer, useRef } from 'react';
 import type { Service, FetchOptions } from './core';
 import Core from './core';
 
-const useMutation = <RequestParams extends any[], ResponseData>(
-  service: Service<RequestParams, ResponseData>,
-  options: FetchOptions<RequestParams, ResponseData>,
-) => {
+const useMutation = <RequestParams extends any[], ResponseData>(service: Service<RequestParams, ResponseData>, options: FetchOptions<RequestParams, ResponseData>) => {
   const [, forceUpdate] = useReducer(x => x + 1, 0);
   const cancelRef = useRef(() => {});
   const client = useMemo(() => {
