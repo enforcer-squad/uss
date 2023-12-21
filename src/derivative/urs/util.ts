@@ -5,7 +5,7 @@ import type { DependencyList } from 'react';
 import { useEffect, useRef } from 'react';
 import { isFunction } from '../../util';
 
-type Cachekey = (string | number)[] | ((...args: any[]) => (string | number)[]);
+type Cachekey = Array<string | number> | ((...args: any[]) => Array<string | number>);
 
 type EventableOtpions<T> = {
   onBefore?: () => boolean | void;
@@ -16,7 +16,7 @@ type EventableOtpions<T> = {
   onCancel?: () => void;
 };
 
-const getProp = (target: object, keys: (string | number)[], defaultValue: any) =>
+const getProp = (target: object, keys: Array<string | number>, defaultValue: any) =>
   keys.reduce((obj, key) => {
     const tmp = ((obj || {}) as any)[key];
     if (tmp === undefined) {
@@ -45,7 +45,7 @@ const eventablePromise = async <T>(promiseFn: () => Promise<T>, options: Eventab
   if (onBefore) {
     isContinue = onBefore() !== false;
   }
-  if (isContinue === false) {
+  if (!isContinue) {
     return;
   }
 
@@ -143,13 +143,4 @@ const shallowEqual = (objA: any, objB: any): boolean => {
 
 export type { Cachekey, EventableOtpions };
 
-export {
-  getProp,
-  cancelablePromise,
-  eventablePromise,
-  getCachePromise,
-  setCachePromise,
-  getCachedKeys,
-  useMemoryEffect,
-  shallowEqual,
-};
+export { getProp, cancelablePromise, eventablePromise, getCachePromise, setCachePromise, getCachedKeys, useMemoryEffect, shallowEqual };

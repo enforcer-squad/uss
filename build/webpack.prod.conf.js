@@ -25,12 +25,10 @@ const prodConfig = {
     new ProgressBarPlugin({
       format: '  build [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)',
     }),
+    // new BundleAnalyzerPlugin({
+    //   analyzerPort: 8899,
+    // }),
   ],
 };
 
-prodConfig.plugins.push(
-  new BundleAnalyzerPlugin({
-    analyzerPort: 8899,
-  }),
-);
 module.exports = merge(baseConfig, prodConfig);

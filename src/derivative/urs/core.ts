@@ -86,7 +86,7 @@ class Core<RequestParams extends any[], ResponseData> {
 
     const { onBefore, onSuccess, onError, onFinally, onCancel } = this.options;
 
-    const promiseFn = async () => await service(...params);
+    const promiseFn = () => service(...params);
     await eventablePromise(promiseFn, {
       onBefore: () => {
         const { isReturn, ...state } = this.execPlugins('onBefore', params, this) as unknown as BeforeReturn<ResponseData>;
@@ -100,7 +100,7 @@ class Core<RequestParams extends any[], ResponseData> {
         }
         return !isReturn;
       },
-      onRequest: async cancel => {
+      onRequest: cancel => {
         const tmpState = {
           loading: true,
           params,
@@ -108,7 +108,8 @@ class Core<RequestParams extends any[], ResponseData> {
         };
         const { promise } = this.execPlugins('onRequest', tmpState, service, this) as unknown as RequestReturn<ResponseData>;
         this.updateState(tmpState);
-        return await promise;
+
+        return promise;
       },
       onSuccess: data => {
         const tmpState = { params, loading: false, cancel: undefined, error: undefined, data };

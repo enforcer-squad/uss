@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import type { Plugins } from '../core';
 import type { Cachekey } from '../util';
 import { getCachedKeys, getCachePromise, setCachePromise } from '../util';
@@ -14,7 +15,7 @@ class SharedPlugin<RequestParams extends any[], ResponseData> implements Plugins
 
   onBefore: NonNullable<Plugins<RequestParams, ResponseData>['onBefore']> = params => {
     const { cachePromise } = this;
-    const cacheKeys = getCachedKeys(this.keys, params!);
+    const cacheKeys = getCachedKeys(this.keys, params);
     const cacheKey = cacheKeys.join();
     const servicePromise = getCachePromise(cacheKey, cachePromise);
 

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { FC } from 'react';
 import { memo, useState } from 'react';
-import { uss, useUSS, devtools, useQuery, subscribe, invalidateData } from '@/export';
+import { uss, useUSS, devtools, useQuery, subscribe, invalidateData, useMutation } from '@/export';
 
 const model = uss({
   key: 'app',
@@ -39,6 +39,15 @@ const useTestRequest = (id: number) =>
     },
   });
 
+const useTestRequest1 = (id: number) =>
+  useMutation(service, {
+    params: [id],
+    placeholderData: 0,
+    onSuccess: () => {
+      console.log('sssss');
+    },
+  });
+
 subscribe(model.person, (path, v, ov) => {
   console.log('改变了', path, v, ov);
 });
@@ -47,13 +56,15 @@ interface PropTypes {
 }
 const ComRequest1: FC<PropTypes> = memo(({ p }) => {
   const { loading, cancel, data, error, refetch } = useTestRequest(p!);
+  const { data: data1, mutate } = useTestRequest1(1);
   console.log('ComRequest1 render');
   return (
     <>
       <span>{data}</span>
+      <span>{data1}</span>
       <button
         onClick={() => {
-          refetch(10);
+          mutate(10);
         }}>
         手动10
       </button>

@@ -57,6 +57,8 @@
     "react/display-name": "off",
     "react/prop-types": "off",
     "@typescript-eslint/no-invalid-void-type": "off",
-    "@typescript-eslint/no-floating-promises": "off"
+    "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/promise-function-async": "off",
+    "n/no-callback-literal": "off"
   }
 }
