@@ -177,8 +177,11 @@ class Core<T extends Config> {
         if (isSymbol(prop) || prop.indexOf('_NOTRACK') === 0) {
           return Reflect.get(target, prop, receiver);
         }
-        // 原型属性不处理 如数组的map等
+        // 原型属性特殊处理 如数组的map等
         if (isProtoProperty(target, prop)) {
+          if (Array.isArray(target)) {
+            execute(handlers.ownKeys, target);
+          }
           return Reflect.get(target, prop, receiver);
         }
         // TODO: 暂时只处理第一层对象的function响应

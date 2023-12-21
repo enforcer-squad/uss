@@ -19,6 +19,9 @@ const model = uss({
   test(index: number) {
     model.list[index - 1].value = 'list11';
   },
+  push() {
+    model.list.push({ key: 'list3', value: 'list3' });
+  },
 });
 devtools(model, { name: 'app' });
 
@@ -102,18 +105,26 @@ const ComRequest2: FC<PropTypes> = memo(({ p }) => {
 
 const App = () => {
   console.log('parent render');
-  const [p, setP] = useState<number>();
-  const { person, changeName } = useUSS(model);
+  const { list, test, push } = useUSS(model);
+
   return (
     <div>
-      <span>{person.name}</span>
+      {list.map(item => {
+        return <span key={item.key}>{item.value}</span>;
+      })}
       <button
         onClick={() => {
-          changeName('yyy');
+          test(1);
         }}>
         change
       </button>
       <button
+        onClick={() => {
+          push();
+        }}>
+        push
+      </button>
+      {/* <button
         onClick={() => {
           setP(10);
         }}>
@@ -133,7 +144,7 @@ const App = () => {
         缓存失效
       </button>
       <ComRequest1 p={p} />
-      <ComRequest2 p={p} />
+      <ComRequest2 p={p} /> */}
     </div>
   );
 };
