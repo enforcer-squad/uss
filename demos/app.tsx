@@ -22,6 +22,15 @@ const model = uss({
   push() {
     model.list.push({ key: 'list3', value: 'list3' });
   },
+  unshift() {
+    model.list.unshift({ key: 'list0', value: 'list0' });
+  },
+  remove() {
+    model.list.pop();
+  },
+  shift() {
+    model.list.shift();
+  },
 });
 devtools(model, { name: 'app' });
 
@@ -105,7 +114,7 @@ const ComRequest2: FC<PropTypes> = memo(({ p }) => {
 
 const App = () => {
   console.log('parent render');
-  const { list, test, push } = useUSS(model);
+  const { list, test, push, remove, shift, unshift } = useUSS(model);
 
   return (
     <div>
@@ -120,9 +129,27 @@ const App = () => {
       </button>
       <button
         onClick={() => {
+          unshift();
+        }}>
+        unshift
+      </button>
+      <button
+        onClick={() => {
           push();
         }}>
         push
+      </button>
+      <button
+        onClick={() => {
+          remove();
+        }}>
+        remove
+      </button>
+      <button
+        onClick={() => {
+          shift();
+        }}>
+        shift
       </button>
       {/* <button
         onClick={() => {
