@@ -65,7 +65,6 @@ class CachedPlugin<RequestParams extends any[], ResponseData> implements Plugins
 
     if (cachedData?.data) {
       this.unSub = subscribe(getStaleData(cacheKeys), () => {
-        console.log('重新请求');
         instance.refetch();
       });
       return {
@@ -110,7 +109,6 @@ class CachedPlugin<RequestParams extends any[], ResponseData> implements Plugins
     const cacheKeys = getCachedKeys(this.keys, params!);
 
     this.unSub = subscribe(getStaleData(cacheKeys), (relativePath, value, prevValue) => {
-      console.log('重新请求');
       instance.refetch();
     });
   };

@@ -78,7 +78,6 @@ const useQuery = <RequestParams extends any[], ResponseData>(keys: Cachekey, ser
   const cacheKeys = getCurrentCachedKeys(keys, manual, manualParams, autoParams);
 
   const cachedData = getReactiveSnapshotData(cacheKeys, {}) as Proxied<Config>;
-  console.log('cachedData', cacheKeys, cachedData);
 
   const result = useMemo(() => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
