@@ -33,7 +33,7 @@ const execute = (middlewares: Middleware[], ...args: any[]) => {
     }
     dispatch(0);
   };
-  const context = { value: null } as Context;
+  const context: Context = { value: null };
   work(context);
   return context;
 };
