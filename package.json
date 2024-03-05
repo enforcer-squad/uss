@@ -1,6 +1,6 @@
 {
   "name": "@enforcer-squad/uss",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "library typescript template",
   "main": "dist/index.js",
   "files": [
