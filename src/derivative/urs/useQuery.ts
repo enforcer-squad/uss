@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { useMemo, useState } from 'react';
-import type { Proxied, Config } from '../../core';
-import type { Service, FetchState, FetchOptions } from './core';
-import type { Cachekey } from './util';
+import type { Config, Proxied } from '../../core';
+import type { FetchOptions, FetchState, Service } from './core';
 import Core from './core';
-import { getCachedKeys, useMemoryEffect, shallowEqual } from './util';
-import { CachedPlugin, getReactiveSnapshotData, setSnapshotData, setStaleData, getSnapshotData, invalidateData } from './plugins/cached';
+import { CachedPlugin, getReactiveSnapshotData, getSnapshotData, invalidateData, setSnapshotData, setStaleData } from './plugins/cached';
 import { SharedPlugin } from './plugins/shared';
+import type { Cachekey } from './util';
+import { getCachedKeys, shallowEqual, useMemoryEffect } from './util';
 
 // promise请求全局缓存
 const cachePromise = new Map<string, Promise<any>>();
@@ -89,7 +89,7 @@ const useQuery = <RequestParams extends any[], ResponseData>(keys: Cachekey, ser
     }
     return {
       loading: cachedData.loading,
-      data: cachedData.data || client.state.data,
+      data: (cachedData.data || client.state.data) as ResponseData,
       error: cachedData.error,
       cancel: cachedData.cancel!,
       refetch,
@@ -99,4 +99,4 @@ const useQuery = <RequestParams extends any[], ResponseData>(keys: Cachekey, ser
   return result;
 };
 
-export { useQuery, setSnapshotData, setStaleData, getSnapshotData, invalidateData };
+export { getSnapshotData, invalidateData, setSnapshotData, setStaleData, useQuery };
