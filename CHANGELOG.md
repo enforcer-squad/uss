@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.11](https://enforcer/enforcer-squad/uss/compare/v1.0.7...v1.0.11) (2024-03-05)
+
+
+### Features
+
+* 增加demo ([43e2377](https://enforcer/enforcer-squad/uss/commit/43e23779f41ae7fb0751d666d74ea7ba24ba327f))
+
+
+### Bug Fixes
+
+* 修复数组map监听不到问题 ([a5afea7](https://enforcer/enforcer-squad/uss/commit/a5afea744cb8c83fa6bf839cfa1e043ac6ac638e))
+
 ### [1.0.10](https://enforcer/enforcer-squad/uss/compare/v1.0.8...v1.0.10) (2023-12-22)
 
 ### [1.0.8](https://enforcer/enforcer-squad/uss/compare/v1.0.6...v1.0.8) (2023-12-22)
