@@ -6,7 +6,7 @@ type Service<RequestParams extends any[], ResponseData> = (...args: RequestParam
 
 type FetchState<RequestParams extends any[], ResponseData> = {
   loading: boolean;
-  params?: RequestParams;
+  params?: Partial<RequestParams>;
   data?: ResponseData;
   error?: Error;
   cancel?: () => void;
@@ -145,11 +145,11 @@ class Core<RequestParams extends any[], ResponseData> {
   }
 
   refetch(currentParams: any[] = []) {
-    let params = currentParams as RequestParams;
+    let params = currentParams;
     if (currentParams.length === 0) {
       params = this.state.params!;
     }
-    this.request(...params);
+    this.request(...(params as RequestParams));
   }
 
   // clone(){
@@ -157,6 +157,6 @@ class Core<RequestParams extends any[], ResponseData> {
   // }
 }
 
-export type { Service, FetchState, FetchOptions, Plugins };
+export type { FetchOptions, FetchState, Plugins, Service };
 
 export default Core;

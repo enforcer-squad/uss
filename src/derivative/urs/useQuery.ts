@@ -29,7 +29,7 @@ const useQuery = <RequestParams extends any[], ResponseData>(keys: Cachekey, ser
     const initState: Partial<FetchState<RequestParams, ResponseData>> = {
       loading: !manual,
       data: placeholderData,
-      params: autoParams as RequestParams,
+      params: autoParams as Partial<RequestParams>,
     };
     const initOptions = {
       ...options,
