@@ -28,7 +28,7 @@ const useQuery = <RequestParams extends any[], ResponseData>(keys: Cachekey, ser
     // 合成初始化fetch state
     const initState: Partial<FetchState<RequestParams, ResponseData>> = {
       loading: !manual,
-      data: placeholderData,
+      data: placeholderData as ResponseData,
       params: autoParams as Partial<RequestParams>,
     };
     const initOptions = {

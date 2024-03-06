@@ -16,7 +16,7 @@ type FetchOptions<RequestParams extends any[], ResponseData> = {
   initState?: Partial<FetchState<RequestParams, ResponseData>>;
   manual?: boolean;
   params?: Partial<RequestParams>;
-  placeholderData?: ResponseData;
+  placeholderData?: Partial<ResponseData>;
   onBefore?: (params: RequestParams) => void;
   onSuccess?: (params: RequestParams, data: ResponseData) => void;
   onError?: (params: RequestParams, error: Error) => void;
