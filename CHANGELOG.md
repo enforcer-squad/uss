@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.17](https://enforcer/enforcer-squad/uss/compare/v1.0.16...v1.0.17) (2024-03-06)
+
+
+### Features
+
+* 修改query placeholderData为可选 方便业务 ([3aca604](https://enforcer/enforcer-squad/uss/commit/3aca604a2ce98f2fbafb77f21cabe230ce056aa8))
+
 ### [1.0.16](https://enforcer/enforcer-squad/uss/compare/v1.0.15...v1.0.16) (2024-03-06)
 
 
