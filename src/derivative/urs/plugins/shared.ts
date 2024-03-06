@@ -36,7 +36,7 @@ class SharedPlugin<RequestParams extends any[], ResponseData> implements Plugins
     if (servicePromise) {
       return { promise: servicePromise };
     }
-    servicePromise = service(...params!);
+    servicePromise = service(...(params as RequestParams));
     setCachePromise(cacheKey, servicePromise, cachePromise);
     return { promise: servicePromise };
   };
