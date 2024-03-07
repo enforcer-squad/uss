@@ -7,10 +7,17 @@ const isSymbol = (value: unknown): value is symbol => typeof value === 'symbol';
 
 const isKeyOf = <T extends object>(key: any, obj: T): key is keyof T => key in obj;
 
-function isProtoProperty(target: object, prop: string): boolean {
+const isReadOnly = (target: object, prop: string) => {
+  const descriptor = Object.getOwnPropertyDescriptor(target, prop);
+  if (descriptor && (!descriptor.configurable || !descriptor.writable)) {
+    return true;
+  }
+  return false;
+};
+const isProtoProperty = (target: object, prop: string): boolean => {
   // 存在该属性且该属性不在对象本身上，即为原型属性
   return Reflect.has(target, prop) && Reflect.getOwnPropertyDescriptor(target, prop) === undefined;
-}
+};
 const debug = (...args: any[]) => {
   if (localStorage.getItem('uss_debugger') !== null) {
     console.log('uss info:', ...args);
@@ -39,4 +46,4 @@ const execute = (middlewares: Middleware[], ...args: any[]) => {
 };
 export type { Context };
 
-export { isObject, isFunction, isSymbol, isKeyOf, isProtoProperty, execute, debug };
+export { debug, execute, isFunction, isKeyOf, isObject, isProtoProperty, isReadOnly, isSymbol };

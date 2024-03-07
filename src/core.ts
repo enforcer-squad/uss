@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable no-underscore-dangle */
 import type { Context } from './util';
-import { isObject, isFunction, isProtoProperty, isSymbol, execute, debug } from './util';
+import { debug, execute, isFunction, isObject, isProtoProperty, isSymbol } from './util';
 
 type Config = {
   key?: string;
@@ -48,7 +48,7 @@ type Handlers<T extends Config> = {
   init: Array<InitMiddleware<T>>;
 };
 
-const getOrigin = <T extends Config>(proxyObject: Proxied<T>) => proxyObject?._NOTRACK_origin;
+const getOrigin = <T extends Config>(proxyObject: T) => proxyObject?._NOTRACK_origin;
 const getCoreInstance = <T extends Config>(proxyObject: Proxied<T>) => proxyObject?._NOTRACK_core;
 const ITERATION_KEY = Symbol('iteration key');
 
@@ -239,8 +239,8 @@ class Core<T extends Config> {
   }
 }
 
-export type { Config, Proxied, CoreMiddleware };
+export type { Config, CoreMiddleware, Proxied };
 
-export { getOrigin, getCoreInstance, ITERATION_KEY };
+export { ITERATION_KEY, getCoreInstance, getOrigin };
 
 export default Core;

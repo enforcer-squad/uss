@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable class-methods-use-this */
-import type { Config, Proxied, CoreMiddleware } from '../core';
+import type { Config, CoreMiddleware, Proxied } from '../core';
 import { getOrigin } from '../core';
 import { isObject } from '../util';
 
@@ -63,8 +63,8 @@ class SubscribePlugin<T extends Config> implements CoreMiddleware<T> {
 
   onInit: NonNullable<CoreMiddleware<T>['onInit']> = (context, next, target, handler) => {
     next(context, next, target, handler);
-    if (target.key) {
-      pathMap.set(target, target.key);
+    if (target.key || target._key) {
+      pathMap.set(target, target.key || target._key);
     }
   };
 }
@@ -74,6 +74,7 @@ const subscribe = <T extends Config>(_model: T, callback: SubscribeCallback) => 
   const model = _model as Proxied<T>;
   const origin = getOrigin(model);
   const path = pathMap.get(origin);
+
   if (path) {
     const callbacks = listenersMap.get(path) || new Set<SubscribeCallback>();
     callbacks.add(callback);

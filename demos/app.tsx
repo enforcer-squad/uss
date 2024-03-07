@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { devtools, subscribe, useMutation, useQuery, useUSS, uss } from '@/export';
 import type { FC } from 'react';
-import { memo, useState } from 'react';
-import { uss, useUSS, devtools, useQuery, subscribe, invalidateData, useMutation } from '@/export';
+import { memo } from 'react';
+import Test from './test';
 
 const model = uss({
   key: 'app',
@@ -60,7 +61,7 @@ const useTestRequest1 = (id: number) =>
     },
   });
 
-subscribe(model.person, (path, v, ov) => {
+subscribe(model, (path, v, ov) => {
   console.log('改变了', path, v, ov);
 });
 interface PropTypes {
@@ -118,7 +119,7 @@ const App = () => {
 
   return (
     <div>
-      {list.map(item => {
+      {/* {list.map(item => {
         return <span key={item.key}>{item.value}</span>;
       })}
       <button
@@ -150,7 +151,7 @@ const App = () => {
           shift();
         }}>
         shift
-      </button>
+      </button> */}
       {/* <button
         onClick={() => {
           setP(10);
@@ -172,6 +173,7 @@ const App = () => {
       </button>
       <ComRequest1 p={p} />
       <ComRequest2 p={p} /> */}
+      <Test />
     </div>
   );
 };

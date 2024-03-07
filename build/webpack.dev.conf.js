@@ -29,8 +29,8 @@ const devConfig = merge(baseConfig, {
       disableDotRule: true,
     },
     proxy: {
-      '/api': {
-        target: 'http://10.0.70.51:8000',
+      '/pd-api': {
+        target: 'http://localhost:3000',
         changeOrigin: true,
         // pathRewrite: {
         //   '^/xxx': '/',

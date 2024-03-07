@@ -1,12 +1,13 @@
+/* eslint-disable no-useless-call */
 /* eslint-disable no-underscore-dangle */
+import { useCallback, useEffect, useLayoutEffect, useMemo, useReducer, useRef, useState } from 'react';
 import type { Config, Proxied } from './core';
+import Core, { getCoreInstance, getOrigin } from './core';
 import type { DevToolOptions } from './middlewares/devtool';
-import { useReducer, useMemo, useRef, useLayoutEffect } from 'react';
-import Core, { getOrigin, getCoreInstance } from './core';
-import USSPlugin, { effect, recycle } from './middlewares/uss';
-import SubscribePlugin, { subscribe } from './middlewares/subscribe';
-import ScopePlugin from './middlewares/scope';
 import DevToolPlugin from './middlewares/devtool';
+import ScopePlugin from './middlewares/scope';
+import SubscribePlugin, { subscribe } from './middlewares/subscribe';
+import USSPlugin, { effect, recycle } from './middlewares/uss';
 declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION__: any;
@@ -50,6 +51,32 @@ const useUSS = <T extends Config>(model: Proxied<T>, scopeName = '') => {
   return result;
 };
 
+const useReactive = <T extends Config>(initObj: T) => {
+  const safeUpdate = useSafeUpdate();
+  recycle(safeUpdate);
+  const [proxyObject, setProxyObject] = useState(uss({ ...toRaw(initObj), _key: Math.round(Math.random() * 90000 + 10000) }));
+
+  useEffect(() => {
+    const unSub = subscribe(proxyObject, () => {
+      safeUpdate();
+    });
+    return () => unSub();
+  }, [proxyObject]);
+
+  const update = useCallback(
+    (fn: ((draft: T) => void) | T) => {
+      if (typeof fn === 'function') {
+        fn.apply(null, [proxyObject as T]);
+      } else {
+        setProxyObject(uss({ ...toRaw(fn), _key: Math.round(Math.random() * 90000 + 10000) }));
+      }
+    },
+    [proxyObject],
+  );
+
+  return [toRaw(proxyObject), update] as [T, typeof update];
+};
+
 const devtools = <T extends Config>(model: Proxied<T>, options: DevToolOptions = {}) => {
   if (window.__REDUX_DEVTOOLS_EXTENSION__ === undefined) return;
   const state = getOrigin(model);
@@ -62,11 +89,11 @@ const devtools = <T extends Config>(model: Proxied<T>, options: DevToolOptions =
   core.use(devToolPlugin);
 };
 
-const toRaw = <T extends Config>(model: Proxied<T>) => {
+const toRaw = <T extends Config>(model: T) => {
   let target = model;
   let tmp = model;
   // eslint-disable-next-line no-cond-assign
-  while ((tmp = getOrigin(target) as Proxied<T>)) {
+  while ((tmp = getOrigin(target))) {
     target = tmp;
   }
   return target;
@@ -74,4 +101,4 @@ const toRaw = <T extends Config>(model: Proxied<T>) => {
 
 export type { Config, Proxied };
 
-export { uss, useUSS, toRaw, devtools, getOrigin, subscribe, effect };
+export { devtools, effect, getOrigin, subscribe, toRaw, useReactive, useUSS, uss };
