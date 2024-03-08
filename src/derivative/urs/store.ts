@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 import type { Config, Proxied } from '../../index';
-import { uss, useUSS, devtools } from '../../index';
+import { devtools, toRaw, useUSS, uss } from '../../index';
 import { getProp } from './util';
 
 const store = uss({
@@ -38,7 +38,7 @@ const getData = (keys: Array<string | number>, defaultValue?: any) => getProp(st
 const getReactiveData = <T extends Config>(keys: Array<string | number>, defaultValue?: T) => {
   const state = useUSS(store);
   const data = getProp(state, keys, defaultValue) as Proxied<T>;
-  return data;
+  return toRaw(data);
 };
 
-export { setData, getDataStore, getData, getReactiveData };
+export { getData, getDataStore, getReactiveData, setData };

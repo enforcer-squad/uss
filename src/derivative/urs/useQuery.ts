@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { useMemo, useState } from 'react';
 import type { Config, Proxied } from '../../core';
+import { toRaw } from '../../index';
 import type { FetchOptions, FetchState, Service } from './core';
 import Core from './core';
 import { CachedPlugin, getReactiveSnapshotData, getSnapshotData, invalidateData, setSnapshotData, setStaleData } from './plugins/cached';
@@ -87,9 +88,10 @@ const useQuery = <RequestParams extends any[], ResponseData>(keys: Cachekey, ser
         setManualParams(params);
       };
     }
+
     return {
       loading: cachedData.loading,
-      data: (cachedData.data || client.state.data) as ResponseData,
+      data: (toRaw(cachedData.data) || client.state.data) as ResponseData,
       error: cachedData.error,
       cancel: cachedData.cancel!,
       refetch,

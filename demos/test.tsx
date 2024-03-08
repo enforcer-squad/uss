@@ -1,7 +1,6 @@
-import { useQuery, useReactive } from '@/export';
+import { getReactiveData, useQuery } from '@/export';
 import axios from 'axios';
 import { setAutoFreeze } from 'immer';
-import { useEffect } from 'react';
 setAutoFreeze(false);
 type ModuleData = {
   title: Record<number, any>;
@@ -42,20 +41,31 @@ const useUnit = (id?: number, type?: number) =>
   });
 
 const Test = () => {
-  const [data, setData] = useReactive<Unit>({} as any);
+  // const [data, setData] = useReactive<Unit>({} as any);
   const { data: initData } = useUnit(1, 1);
 
-  console.log('data', data);
-  // window.setData = setData;
-  useEffect(() => {
-    if (initData) {
-      console.log('初始化');
-      setData(initData);
-      // console.log(initData.modules);
-    }
-  }, [initData]);
+  console.log('test', initData);
 
-  return <div>111</div>;
+  // useEffect(() => {
+  //   if (initData) {
+  //     console.log('初始化');
+  //     setData(initData);
+  //     // console.log(initData.modules);
+  //   }
+  // }, [initData]);
+
+  return (
+    <div>
+      test
+      {/* <button onClick={refetch}>refetch</button> */}
+    </div>
+  );
+};
+const Test1 = () => {
+  const data = getReactiveData(['unit', 1, 1], {});
+  console.log('test1', data);
+
+  return <div>test1</div>;
 };
 
-export default Test;
+export { Test, Test1 };

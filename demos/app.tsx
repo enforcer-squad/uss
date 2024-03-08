@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { devtools, subscribe, useMutation, useQuery, useUSS, uss } from '@/export';
+import { devtools, invalidateData, subscribe, useMutation, useQuery, uss } from '@/export';
 import type { FC } from 'react';
 import { memo } from 'react';
-import Test from './test';
+import { Test, Test1 } from './test';
 
 const model = uss({
   key: 'app',
@@ -114,9 +114,9 @@ const ComRequest2: FC<PropTypes> = memo(({ p }) => {
 });
 
 const App = () => {
-  console.log('parent render');
-  const { list, test, push, remove, shift, unshift } = useUSS(model);
-
+  // console.log('parent render');
+  // const { list, test, push, remove, shift, unshift } = useUSS(model);
+  window.invalidateData = invalidateData;
   return (
     <div>
       {/* {list.map(item => {
@@ -173,6 +173,7 @@ const App = () => {
       </button>
       <ComRequest1 p={p} />
       <ComRequest2 p={p} /> */}
+      <Test1 />
       <Test />
     </div>
   );
