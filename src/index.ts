@@ -52,13 +52,15 @@ const useUSS = <T extends Config>(model: Proxied<T>, scopeName = '') => {
 };
 
 const attachKey = <T extends Config>(obj: T) => {
-  const tmp = Math.round(Math.random() * 90000 + 10000);
-  Object.defineProperty(obj, '_key', {
-    get() {
-      return tmp;
-    },
-    enumerable: false,
-  });
+  if (!('_key' in obj)) {
+    const tmp = Math.round(Math.random() * 90000 + 10000);
+    Object.defineProperty(obj, '_key', {
+      get() {
+        return tmp;
+      },
+      enumerable: false,
+    });
+  }
   return obj;
 };
 
