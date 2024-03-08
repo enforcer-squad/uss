@@ -51,10 +51,24 @@ const useUSS = <T extends Config>(model: Proxied<T>, scopeName = '') => {
   return result;
 };
 
+const attachKey = <T extends Config>(obj: T) => {
+  const tmp = Math.round(Math.random() * 90000 + 10000);
+  Object.defineProperty(obj, '_key', {
+    get() {
+      return tmp;
+    },
+    enumerable: false,
+  });
+  return obj;
+};
+
 const useReactive = <T extends Config>(initObj: T) => {
   const safeUpdate = useSafeUpdate();
   recycle(safeUpdate);
-  const [proxyObject, setProxyObject] = useState(uss({ ...toRaw(initObj), _key: Math.round(Math.random() * 90000 + 10000) }));
+
+  const [proxyObject, setProxyObject] = useState(() => {
+    return uss(attachKey(toRaw(initObj)));
+  });
 
   useEffect(() => {
     const unSub = subscribe(proxyObject, () => {
@@ -68,7 +82,7 @@ const useReactive = <T extends Config>(initObj: T) => {
       if (typeof fn === 'function') {
         fn.apply(null, [proxyObject as T]);
       } else {
-        setProxyObject(uss({ ...toRaw(fn), _key: Math.round(Math.random() * 90000 + 10000) }));
+        setProxyObject(attachKey(uss(toRaw(fn))));
       }
     },
     [proxyObject],

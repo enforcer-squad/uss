@@ -46,12 +46,12 @@ const Test = () => {
   const { data: initData } = useUnit(1, 1);
 
   console.log('data', data);
-  window.setData = setData;
+  // window.setData = setData;
   useEffect(() => {
     if (initData) {
+      console.log('初始化');
       setData(initData);
-
-      console.log(initData.modules);
+      // console.log(initData.modules);
     }
   }, [initData]);
 
