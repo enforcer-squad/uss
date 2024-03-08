@@ -1,8 +1,9 @@
+/* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { devtools, invalidateData, subscribe, useMutation, useQuery, uss } from '@/export';
+import { devtools, subscribe, useMutation, useQuery, uss } from '@/export';
 import type { FC } from 'react';
-import { memo } from 'react';
-import { Test, Test1 } from './test';
+import { memo, useMemo, useState } from 'react';
+import { Test } from './test';
 
 const model = uss({
   key: 'app',
@@ -113,21 +114,103 @@ const ComRequest2: FC<PropTypes> = memo(({ p }) => {
   );
 });
 
+let o1 = {
+  type: 1,
+  order: 1,
+  data: {
+    title: {
+      '0': {
+        value: '111',
+        commit: '',
+      },
+    },
+    table: [
+      {
+        '0': {
+          value: ['序号', '功能/模块', '描述'],
+          enable: true,
+          commit: '',
+        },
+      },
+      {
+        '0': {
+          value: ['11', '12', '13'],
+          enable: true,
+          commit: '',
+        },
+      },
+    ],
+    enable: {
+      '0': {
+        value: true,
+        commit: '',
+      },
+    },
+  },
+  unitId: 4,
+};
+
+let o2 = {
+  type: 1,
+  order: 2,
+  data: {
+    title: {
+      '0': {
+        value: '2223',
+        commit: '',
+      },
+    },
+    table: [
+      {
+        '0': {
+          value: ['序号', '功能/模块', '描述'],
+          enable: true,
+          commit: '',
+        },
+      },
+      {
+        '0': {
+          value: ['1', '2', '3'],
+          enable: true,
+          commit: '',
+        },
+      },
+    ],
+    enable: {
+      '0': {
+        value: true,
+        commit: '',
+      },
+    },
+  },
+  unitId: 4,
+};
+
 const App = () => {
+  const [s, SetS] = useState(true);
+  const currentEditItem = useMemo(() => {
+    if (s) {
+      return {
+        ...o1,
+      };
+    } else {
+      return { ...o2 };
+    }
+  }, [s]);
   // console.log('parent render');
   // const { list, test, push, remove, shift, unshift } = useUSS(model);
-  window.invalidateData = invalidateData;
   return (
     <div>
-      {/* {list.map(item => {
-        return <span key={item.key}>{item.value}</span>;
-      })}
       <button
         onClick={() => {
-          test(1);
+          SetS(s => !s);
         }}>
         change
       </button>
+      {/* {list.map(item => {
+        return <span key={item.key}>{item.value}</span>;
+      })}
+     
       <button
         onClick={() => {
           unshift();
@@ -173,8 +256,8 @@ const App = () => {
       </button>
       <ComRequest1 p={p} />
       <ComRequest2 p={p} /> */}
-      <Test1 />
-      <Test />
+      {/* <Test1 /> */}
+      <Test init={currentEditItem} />
     </div>
   );
 };

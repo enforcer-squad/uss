@@ -1,6 +1,7 @@
-import { getReactiveData, useQuery } from '@/export';
+import { getReactiveData, useQuery, useReactive } from '@/export';
 import axios from 'axios';
 import { setAutoFreeze } from 'immer';
+import { useEffect } from 'react';
 setAutoFreeze(false);
 type ModuleData = {
   title: Record<number, any>;
@@ -40,11 +41,14 @@ const useUnit = (id?: number, type?: number) =>
     params: [id, type],
   });
 
-const Test = () => {
-  // const [data, setData] = useReactive<Unit>({} as any);
-  const { data: initData } = useUnit(1, 1);
-
-  console.log('test', initData);
+const Test = ({ init }: any) => {
+  const [data, setData] = useReactive<Unit>(init);
+  // const { data: initData } = useUnit(1, 1);
+  window.setDate = setData;
+  useEffect(() => {
+    setData(init);
+  }, [init]);
+  console.log(data);
 
   // useEffect(() => {
   //   if (initData) {
@@ -54,12 +58,7 @@ const Test = () => {
   //   }
   // }, [initData]);
 
-  return (
-    <div>
-      test
-      {/* <button onClick={refetch}>refetch</button> */}
-    </div>
-  );
+  return <div>test</div>;
 };
 const Test1 = () => {
   const data = getReactiveData(['unit', 1, 1], {});

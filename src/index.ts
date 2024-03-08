@@ -84,7 +84,7 @@ const useReactive = <T extends Config>(initObj: T) => {
       if (typeof fn === 'function') {
         fn.apply(null, [proxyObject as T]);
       } else {
-        setProxyObject(attachKey(uss(toRaw(fn))));
+        setProxyObject(uss(attachKey(toRaw(fn))));
       }
     },
     [proxyObject],
