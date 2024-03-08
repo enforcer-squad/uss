@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.2](https://enforcer/enforcer-squad/uss/compare/v1.1.1...v1.1.2) (2024-03-08)
+
+
+### Features
+
+* 修复useReactive函数redfine问题 ([0999be1](https://enforcer/enforcer-squad/uss/commit/0999be1a65044cfa86e37e14bf10de4c1d48b47d))
+
 ### [1.1.1](https://enforcer/enforcer-squad/uss/compare/v1.1.0...v1.1.1) (2024-03-08)
 
 
