@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.3](https://enforcer/enforcer-squad/uss/compare/v1.1.2...v1.1.3) (2024-03-08)
+
+
+### Features
+
+* 调整urs函数返回值为纯对象 ([1cf99ca](https://enforcer/enforcer-squad/uss/commit/1cf99ca4f989093894fd773a788ab10a621a8ec2))
+
 ### [1.1.2](https://enforcer/enforcer-squad/uss/compare/v1.1.1...v1.1.2) (2024-03-08)
 
 
