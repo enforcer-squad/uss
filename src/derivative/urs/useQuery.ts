@@ -21,7 +21,7 @@ const getCurrentCachedKeys = (key: Cachekey, manual: boolean, manualParams: any[
 };
 
 const useQuery = <RequestParams extends any[], ResponseData>(keys: Cachekey, service: Service<RequestParams, ResponseData>, options: FetchOptions<RequestParams, ResponseData>) => {
-  const { manual = false, params: autoParams = [], placeholderData } = options || {};
+  const { manual = false, params: autoParams = [], placeholderData, noCache = false } = options || {};
 
   const [manualParams, setManualParams] = useState<any[]>([]);
 
@@ -37,10 +37,11 @@ const useQuery = <RequestParams extends any[], ResponseData>(keys: Cachekey, ser
       initState,
     };
     // 初始化所需插件
-    const cached = new CachedPlugin<RequestParams, ResponseData>(keys);
-    const shared = new SharedPlugin<RequestParams, ResponseData>(keys, cachePromise);
-    const fetch = new Core<RequestParams, ResponseData>(service, initOptions, [cached, shared]);
-
+    const plugins = [new SharedPlugin<RequestParams, ResponseData>(keys, cachePromise)] as any[];
+    if (!noCache) {
+      plugins.unshift(new CachedPlugin<RequestParams, ResponseData>(keys));
+    }
+    const fetch = new Core<RequestParams, ResponseData>(service, initOptions, plugins);
     return fetch;
   }, []);
 
