@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import type { Proxied, Config } from '../../../index';
+import type { Config } from '../../../index';
+import { subscribe } from '../../../index';
 import type { Plugins } from '../core';
+import { getData, getReactiveData, setData } from '../store';
 import type { Cachekey } from '../util';
 import { getCachedKeys } from '../util';
-import { setData, getData, getReactiveData } from '../store';
-import { subscribe } from '../../../index';
 
 const MANAGEMENT = '_MANAGEMENT';
 const SNAPSHOT = 'snapshot';
@@ -61,19 +61,22 @@ class CachedPlugin<RequestParams extends any[], ResponseData> implements Plugins
       return undefined;
     }
 
-    const cachedData = getSnapshotData(cacheKeys);
+    if (!instance.options.noCache) {
+      const cachedData = getSnapshotData(cacheKeys);
 
-    if (cachedData?.data) {
-      this.unSub = subscribe(getStaleData(cacheKeys), () => {
-        instance.refetch();
-      });
-      return {
-        isReturn: true,
-        data: cachedData.data,
-        params: cachedData.params,
-        error: undefined,
-      };
+      if (cachedData?.data) {
+        this.unSub = subscribe(getStaleData(cacheKeys), () => {
+          instance.refetch();
+        });
+        return {
+          isReturn: true,
+          data: cachedData.data,
+          params: cachedData.params,
+          error: undefined,
+        };
+      }
     }
+
     return undefined;
   };
 
@@ -114,4 +117,4 @@ class CachedPlugin<RequestParams extends any[], ResponseData> implements Plugins
   };
 }
 
-export { CachedPlugin, getReactiveSnapshotData, setSnapshotData, getSnapshotData, setStaleData, invalidateData };
+export { CachedPlugin, getReactiveSnapshotData, getSnapshotData, invalidateData, setSnapshotData, setStaleData };
