@@ -13,7 +13,7 @@ type FetchState<RequestParams extends any[], ResponseData> = {
 };
 
 type FetchOptions<RequestParams extends any[], ResponseData> = {
-  noCache: boolean;
+  noCache?: boolean;
   initState?: Partial<FetchState<RequestParams, ResponseData>>;
   manual?: boolean;
   params?: Partial<RequestParams>;
