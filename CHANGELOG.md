@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.1](https://enforcer/enforcer-squad/uss/compare/v1.2.0...v1.2.1) (2024-03-09)
+
+
+### Bug Fixes
+
+* 修复手动请求无效问题 ([860cd91](https://enforcer/enforcer-squad/uss/commit/860cd917ac5fa90d7feaf5da688958340d5c0787))
+
 ## [1.2.0](https://enforcer/enforcer-squad/uss/compare/v1.1.4...v1.2.0) (2024-03-09)
 
 
