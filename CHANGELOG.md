@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://enforcer/enforcer-squad/uss/compare/v1.1.4...v1.2.0) (2024-03-09)
+
+
+### Features
+
+* 增加不缓存开关 ([4aae162](https://enforcer/enforcer-squad/uss/commit/4aae16238727e39fdc0b67eb5214a281112549df))
+
 ### [1.1.4](https://enforcer/enforcer-squad/uss/compare/v1.1.3...v1.1.4) (2024-03-08)
 
 
