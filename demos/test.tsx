@@ -48,7 +48,6 @@ const Test = ({ init }: any) => {
   useEffect(() => {
     setData(init);
   }, [init]);
-  console.log(data);
 
   // useEffect(() => {
   //   if (initData) {
