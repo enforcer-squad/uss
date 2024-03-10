@@ -63,7 +63,6 @@ const useQuery = <RequestParams extends any[], ResponseData>(keys: Cachekey, ser
 
   useMemoryEffect(
     prevParams => {
-      console.log(prevParams);
       if (
         prevParams !== undefined &&
         manual &&
