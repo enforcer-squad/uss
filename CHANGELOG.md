@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.5](https://enforcer/enforcer-squad/uss/compare/v1.0.10...v1.2.5) (2024-03-11)
+
+
+### Features
+
+* 调整urs函数返回值为纯对象 ([1cf99ca](https://enforcer/enforcer-squad/uss/commit/1cf99ca4f989093894fd773a788ab10a621a8ec2))
+* 修复useReactive函数redfine问题 ([0999be1](https://enforcer/enforcer-squad/uss/commit/0999be1a65044cfa86e37e14bf10de4c1d48b47d))
+* 修改query placeholderData为可选 方便业务 ([3aca604](https://enforcer/enforcer-squad/uss/commit/3aca604a2ce98f2fbafb77f21cabe230ce056aa8))
+* 修改query参数为可选 方便业务 ([c9d94f1](https://enforcer/enforcer-squad/uss/commit/c9d94f1a8240190fbe5e7dffe89dd28f138e4a80))
+* 修改reactive方法,隐藏_key ([097dd28](https://enforcer/enforcer-squad/uss/commit/097dd28be5e41937f75dc017d8f4acf0be2b76cb))
+* 增加不缓存开关 ([4aae162](https://enforcer/enforcer-squad/uss/commit/4aae16238727e39fdc0b67eb5214a281112549df))
+* 增加useReactive方法,尝试解决useImmer的冻结问题 ([19a5750](https://enforcer/enforcer-squad/uss/commit/19a575046e4d5496f1b79b125227b67b30e35ed3))
+
+
+### Bug Fixes
+
+* 修复手动请求无效问题 ([860cd91](https://enforcer/enforcer-squad/uss/commit/860cd917ac5fa90d7feaf5da688958340d5c0787))
+* 修复motate不传参报错问题 ([f94c829](https://enforcer/enforcer-squad/uss/commit/f94c829e7e0af3bd9d7acf826408dffe23f345b7))
+* 修复noChahe为可选 ([29ea5f4](https://enforcer/enforcer-squad/uss/commit/29ea5f43d53c5a4e5328428ec55a3be94f660924))
+* 修复query 参数类型问题 ([f235224](https://enforcer/enforcer-squad/uss/commit/f235224e1f08a9f41ed4622764261c0789e6bee6))
+* 修复query返回类型 ([1481bb1](https://enforcer/enforcer-squad/uss/commit/1481bb143d65ab39246a9855efba6460db0f1552))
+* 修复shard类型错误问题 ([67a0630](https://enforcer/enforcer-squad/uss/commit/67a063019193be3872e767e13d9cf8ae514fccbe))
+* 修复useReactive问题 ([699b3a0](https://enforcer/enforcer-squad/uss/commit/699b3a06c1e8db5fd55ca394db6fbfbcb4d370ef))
+
 ### [1.2.4](https://enforcer/enforcer-squad/uss/compare/v1.2.3...v1.2.4) (2024-03-10)
 
 ### [1.2.3](https://enforcer/enforcer-squad/uss/compare/v1.2.2...v1.2.3) (2024-03-10)
