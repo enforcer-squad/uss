@@ -148,7 +148,7 @@ class Core<RequestParams extends any[], ResponseData> {
   refetch(currentParams: any[] = []) {
     let params = currentParams;
     if (currentParams.length === 0) {
-      params = this.state.params!;
+      params = this.state.params || [];
     }
     this.request(...(params as RequestParams));
   }

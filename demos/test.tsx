@@ -1,7 +1,6 @@
-import { getReactiveData, useQuery, useReactive } from '@/export';
+import { getReactiveData, useMutation, useQuery } from '@/export';
 import axios from 'axios';
 import { setAutoFreeze } from 'immer';
-import { useEffect } from 'react';
 setAutoFreeze(false);
 type ModuleData = {
   title: Record<number, any>;
@@ -40,15 +39,21 @@ const useUnit = (id?: number, type?: number) =>
   useQuery(['unit'], getUnit, {
     params: [id, type],
   });
-
+const logout = () =>
+  client({
+    url: `/v1/user-logout`,
+    method: 'post',
+  });
+const useLogout = () =>
+  useMutation(logout, {
+    params: [],
+    onSuccess() {
+      window.location.href = `https://portal.infervision.com/login?rd=front-paramdoc.k8s.infervision.com/`;
+    },
+  });
 const Test = ({ init }: any) => {
-  const [data, setData] = useReactive<Unit>(init);
-  // const { data: initData } = useUnit(1, 1);
-  window.setDate = setData;
-  useEffect(() => {
-    setData(init);
-  }, [init]);
-
+  const { mutate } = useLogout();
+  mutate();
   // useEffect(() => {
   //   if (initData) {
   //     console.log('初始化');
